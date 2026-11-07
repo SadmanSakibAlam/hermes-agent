@@ -866,6 +866,14 @@ if (IS_WINDOWS) {
     console.log(
       `[hermes] Windows GPU stack-cookie fallback enabled (${gpuStackCookieDecision.reason}); disabling GPU hardware acceleration (0xC0000409 / #108047)`
     )
+  } else if (!REMOTE_DISPLAY_REASON) {
+    // Ported Antigravity extreme performance flags for Intel HD Graphics & Windows 11
+    app.commandLine.appendSwitch('ignore-gpu-blocklist')
+    app.commandLine.appendSwitch('enable-gpu-rasterization')
+    app.commandLine.appendSwitch('enable-zero-copy')
+    app.commandLine.appendSwitch('num-raster-threads', '2')
+    app.commandLine.appendSwitch('disable-features', 'DropInputEventsWhilePaintHolding,CalculateNativeWinOcclusion')
+    console.log('[hermes] Ported Antigravity hardware acceleration and zero-latency input flags enabled for Windows')
   }
 }
 
